@@ -1,0 +1,6 @@
+secrets.json
+secrets.tf
+ssh_key.tf
+packer_cache/
+terraform.tfstate
+terraform.tfstate.backup

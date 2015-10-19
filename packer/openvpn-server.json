@@ -1,0 +1,20 @@
+{
+  "builders": [
+    {
+      "type": "digitalocean",
+      "droplet_name": "openvpn-server-builder",
+      "snapshot_name": "openvpn-server{{timestamp}}",
+      "api_token": "{{user `digitalocean.access_token`}}",
+      "image": "ubuntu-15-04-x64",
+      "region": "ams3",
+      "size": "512mb"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "script": "packer/scripts/install/openvpn-server.sh"
+    }
+  ]
+}
