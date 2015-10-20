@@ -5,11 +5,4 @@ resource "digitalocean_droplet" "openvpn-server" {
     size = "512mb"
     ssh_keys = ["${digitalocean_ssh_key.openvpn-server.id}"]
     private_networking = true
-    provisioner "remote-exec" {
-        inline = [
-        ]
-        connection {
-            key_file = "${var.ssh_key.private_key_path}"
-        }
-    }
 }

@@ -5,3 +5,4 @@ packer_cache/
 terraform.tfstate
 terraform.tfstate.backup
 .openvpn-server.snapshot_id
+easy-rsa.yml

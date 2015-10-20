@@ -1,0 +1,11 @@
+--- openssl-1.0.0.cnf   2015-10-20 18:49:10.329727609 +0000
++++ openssl-1.0.0.cnf   2015-10-20 18:49:46.528312299 +0000
+@@ -217,7 +217,7 @@
+ authorityKeyIdentifier=keyid,issuer:always
+ extendedKeyUsage=serverAuth
+ keyUsage = digitalSignature, keyEncipherment
+-subjectAltName=$ENV::KEY_ALTNAMES
++#subjectAltName=$ENV::KEY_ALTNAMES
+
+ [ v3_req ]
+

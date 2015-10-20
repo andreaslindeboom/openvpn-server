@@ -1,14 +1,18 @@
 # OpenVPN-Deploy
 [WIP] A set of Packer builders and Terraform configuration to build and deploy an OpenVPN server.
 
+NOTE: work on this is not yet complete! It also requires https://github.com/andreaslindeboom/ansible-base-image to be run once. (this is temporary)
+
 ##Building the image
 ###Preparation
 If you intend to create DigitalOcean snapshots, copy `packer/secrets.json.dist` to `secrets.json,` and enter your DigitalOcean access token.
 
+To configure the CA, an `easy-rsa.yml.dist` file is included in the `packer` directory. Copy this to `easy-rsa.yml` and enter your details.
+
 ###DigitalOcean Snapshot
 A wrapper scripts is included to build a snapshot on DigitalOcean. To build the snapshot, run the following from the project root directory:
 ```
-packer/build/openvpn.sh
+packer/build.sh
 ```
 Note that this script will write out the id of the created snapshot to .openvpn.snapshot_id to be fed into Terraform later. For this reason, Packer will be run with the --machine-readable flag.
 

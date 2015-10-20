@@ -5,16 +5,37 @@
       "droplet_name": "openvpn-server-builder",
       "snapshot_name": "openvpn-server{{timestamp}}",
       "api_token": "{{user `digitalocean.access_token`}}",
-      "image": "ubuntu-15-04-x64",
+      "image": "{{ user `base_image`}}",
       "region": "ams3",
       "size": "512mb"
+    },
+    {
+        "type": "docker",
+        "image": "openvpn_base",
+        "pull": false,
+        "export_path": "openvpn-server"
     }
   ],
   "provisioners": [
     {
-      "type": "shell",
-      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
-      "script": "packer/scripts/install/openvpn-server.sh"
+      "type": "file",
+      "source": "easy-rsa.yml",
+      "destination": "/tmp/easy-rsa.yml"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/local.yml",
+      "playbook_dir": "ansible",
+      "extra_arguments": "--extra-vars=\"@/tmp/easy-rsa.yml\""
     }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-import",
+        "repository": "openvpn-server",
+        "only": [ "docker" ]
+      }
+    ]
   ]
 }

@@ -1,0 +1,9 @@
+---
+key_country: 2-letter country code (e.g. US)
+key_province: Province
+key_city: City
+key_org: Organization
+key_email: email@domain.extension
+key_cn: Common name (e.g. computer hostname)
+key_name: Key name
+key_ou: Organizational unit

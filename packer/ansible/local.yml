@@ -1,0 +1,32 @@
+---
+- hosts: all
+  tasks:
+  - name: Installing OpenVPN
+    apt: name=openvpn state=present update_cache=yes
+  - name: Installing Easy-RSA
+    apt: name=easy-rsa state=present update_cache=yes
+  - name: Copying Easy-RSA config to OpenVPN dir
+    copy: src=/usr/share/easy-rsa/ dest=/etc/openvpn/easy-rsa
+  - name: Creating key vars
+    template: src=templates/key-vars.env.j2 dest=/etc/openvpn/easy-rsa/key-vars.env
+  - name: Sourcing key vars
+    lineinfile: dest=/etc/openvpn/easy-rsa/vars state=present line="source key-vars.env"
+  - name: Fixing Easy-RSA script permissions
+    file: path="/etc/openvpn/easy-rsa/{{ item }}" mode="u+x"
+    with_items:
+      - whichopensslcnf
+      - clean-all
+      - build-ca
+      - pkitool
+      - build-key-server
+      - build-dh
+  - name: Patching OpenSSL config to remediate bug
+    patch: src=files/openssl-1.0.0.cnf.patch dest=/etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+  - name: Setting up CA
+    shell: files/setup-ca.sh {{ key_name }}
+  - copy: src=/etc/openvpn/easy-rsa/keys/{{ item }} dest=/etc/openvpn/{{ item }}
+    with_items:
+      - "{{ key_name }}.crt"
+      - "{{ key_name }}.key"
+      - ca.crt
+      - dh2048.pem
