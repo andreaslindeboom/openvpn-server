@@ -24,7 +24,8 @@
     patch: src=files/openssl-1.0.0.cnf.patch dest=/etc/openvpn/easy-rsa/openssl-1.0.0.cnf
   - name: Setting up CA
     shell: files/setup-ca.sh {{ key_name }}
-  - copy: src=/etc/openvpn/easy-rsa/keys/{{ item }} dest=/etc/openvpn/{{ item }}
+  - name: Copy certificates and keys to OpenVPN
+    copy: src=/etc/openvpn/easy-rsa/keys/{{ item }} dest=/etc/openvpn/{{ item }}
     with_items:
       - "{{ key_name }}.crt"
       - "{{ key_name }}.key"
