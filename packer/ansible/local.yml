@@ -20,6 +20,7 @@
       - pkitool
       - build-key-server
       - build-dh
+      - build-key
   - name: Patching OpenSSL config to remediate bug
     patch: src=files/openssl-1.0.0.cnf.patch dest=/etc/openvpn/easy-rsa/openssl-1.0.0.cnf
   - name: Setting up CA
