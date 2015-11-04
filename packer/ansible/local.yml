@@ -42,3 +42,17 @@
     lineinfile: line="user nobody" dest=/etc/openvpn/server.conf state=present regexp="^;user nobody"
   - name: Set OpenVPN server group
     lineinfile: line="group nogroup" dest=/etc/openvpn/server.conf state=present regexp="^;group nogroup"
+  - name: Firewall enable SSH
+    shell: ufw allow ssh
+  - name: Firewall enable OpenVPN
+    shell: ufw allow 1194/udp
+  - name: Firewall allow forwarding
+    lineinfile: line="DEFAULT_FORWARD_POLICY=\"ACCEPT\"" dest=/etc/default/ufw regexp="^DEFAULT_FORWARD_POLICY=\"DROP\""
+  - name: Firewall enable source IP masquerading
+    lineinfile: line="{{ item }}" dest=/etc/ufw/before.rules insertbefore="^# don't delete the 'COMMIT' line or these rules won't be processed"
+    with_items:
+      - ":POSTROUTING ACCEPT [0:0]"
+      - "-A POSTROUTING -o eth1 -j MASQUERADE"
+      - "\n"
+  - name: Reload UFW
+    shell: ufw enable
