@@ -44,12 +44,8 @@
     lineinfile: line="group nogroup" dest=/etc/openvpn/server.conf state=present regexp="^;group nogroup"
   - name: Push route to private network
     lineinfile: line="push \"route {{private_network_ip}} {{private_network_mask}}\"" dest=/etc/openvpn/server.conf state=present insertbefore="^;push \"route"
+  - name: Install iptables-persistent
+    apt: name=iptables-persistent state=present update_cache=yes
   - name: Enable IP masquerading
-    copy: src=files/iptables.rules dest=/etc/iptables.rules
-    notify: Load iptables rules
-  - name: Load iptables rules before network interface comes up
-    copy: src=files/iptables-restore dest=/etc/network/if-pre-up.d/iptables-restore
+    copy: src=files/iptables-rules.v4 dest=/etc/iptables/rules.v4
 
-  handlers:
-  - name: Load iptables rules
-    shell: iptables-restore < /etc/iptables.rules
