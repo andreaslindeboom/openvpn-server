@@ -19,14 +19,14 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "easy-rsa.yml",
-      "destination": "/tmp/easy-rsa.yml"
+      "source": "openvpn-config.yml",
+      "destination": "/tmp/openvpn-config.yml"
     },
     {
       "type": "ansible-local",
       "playbook_file": "ansible/local.yml",
       "playbook_dir": "ansible",
-      "extra_arguments": "--extra-vars=\"@/tmp/easy-rsa.yml\""
+      "extra_arguments": "--extra-vars=\"@/tmp/openvpn-config.yml\""
     }
   ],
   "post-processors": [

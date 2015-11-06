@@ -1,4 +1,5 @@
 ---
+# Certificate Authority settings
 key_country: 2-letter country code (e.g. US)
 key_province: Province
 key_city: City
@@ -7,3 +8,7 @@ key_email: email@domain.extension
 key_cn: Common name (e.g. computer hostname)
 key_name: Key name
 key_ou: Organizational unit
+
+# Settings for the route to be pushed
+private_network_ip: #IP address of the private network, e.g. 10.10.5.0
+private_network_mask: #subnet mask for the private network IP, e.g. 255.255.255.0
