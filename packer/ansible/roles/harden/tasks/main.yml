@@ -13,6 +13,8 @@
     - "-A INPUT -p tcp ! --syn -m state --state NEW -j DROP"  # Force SYN check for new connections
     - "-A INPUT -i eth0 -p udp --dport 1194 -j ACCEPT"        # Accept OpenVPN connections on the public network interface
     - "-A INPUT -i tun0 -p tcp --dport 22 -j ACCEPT"          # Accept SSH connections on private network interface
+    - "-A INPUT -i tun0 -p icmp --icmp-type echo-request -j ACCEPT"   # Accept pings
+    - "-A INPUT -i tun0 -p udp -m udp --dport 33434:33523 -j ACCEPT"  # Accept traceroutes
     - "-P INPUT DROP"
     - "-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT" # Leave established forward connections alone
     - "-A FORWARD -s 10.8.0.0/24 -j ACCEPT"                   # Accept packets to be forwarded when they come from the VPN network
